@@ -15,7 +15,7 @@ public:
         vector<vector<int>> ans;
         if(root == NULL) return ans;
         queue<TreeNode* > q;
-        q.push(root);          //Tc - O(N) as we traverse all nodes; Sc - O(n) we used queue
+        q.push(root);       //Tc - O(N) as we traverse all nodes; Sc - O(n) we used queue
         while(!q.empty()){
             int size = q.size();
             vector<int> level;
