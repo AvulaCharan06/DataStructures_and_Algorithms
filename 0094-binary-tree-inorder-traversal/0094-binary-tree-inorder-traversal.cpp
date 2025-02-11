@@ -11,20 +11,31 @@
  */
 class Solution {
 public:
-   void inOrder(TreeNode* node, vector<int>& ans){
-    //Base case
-      if(node == nullptr) return;
-
-      //recursive case
-       inOrder(node->left, ans);
-       ans.push_back(node->val);
-       inOrder(node->right, ans);
-
-   }
     vector<int> inorderTraversal(TreeNode* root) {
-        vector<int>ans;
-        inOrder(root, ans);
-        return ans;
-        //Tc - O(n), Sc - O(n)
+        // Morris Inorder Traversal
+        vector<int> inorder;
+       TreeNode* curr = root;
+       while(curr != nullptr){
+          if(curr->left == NULL){
+            inorder.push_back(curr->val);
+            curr = curr->right;
+          }
+          else{
+             TreeNode* prev = curr->left;
+             while(prev->right && prev->right != curr){
+                prev = prev->right;
+             }
+             if(prev->right == NULL){
+                prev->right = curr;
+                curr = curr->left;
+             }else{
+                prev->right = NULL;
+                inorder.push_back(curr->val);
+                curr = curr->right;
+             }
+          }
+       }
+       return inorder;
+
     }
 };
