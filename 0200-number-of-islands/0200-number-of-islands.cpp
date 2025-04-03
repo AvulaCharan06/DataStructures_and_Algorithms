@@ -1,53 +1,48 @@
 class Solution {
 public:
-    void bfs(int row, int col, vector<vector<char>>& grid){
-        grid[row][col] = '#';
-        queue<pair<int, int>> q;
-        q.push({row, col});
-
-        int n = grid.size();
-        int m = grid[0].size();
-
-        while(!q.empty()){
+   void bfs(int row, int col, vector<vector<int>>& vis, vector<vector<char>>& grid){
+      vis[row][col] = 1;
+      queue<pair<int, int>> q;
+      q.push({row, col});
+        
+          while(!q.empty()){
             int row = q.front().first;
             int col = q.front().second;
             q.pop();
-        
-        // Traverse the neighbours and check if 1 is there or not
-          int delrow[] = {-1, 1, 0, 0};
-          int delcol[] = {0, 0, -1, 1};
+               
+               int n = grid.size();
+               int m = grid[0].size();
 
-          for(int k =0; k<4; k++){
-                int nrow = row + delrow[k];
-                int ncol = col + delcol[k]; 
+               int delrow[] = {-1, 0, 1, 0};
+               int delcol[] = {0, 1, 0, -1};
 
-               if(nrow >=0 && nrow <n && ncol>=0 && ncol<m 
-                   && grid[nrow][ncol] == '1'){
-                     grid[nrow][ncol] = '#';
+               for(int i=0; i<4; i++){
+                  int nrow = row + delrow[i];
+                  int ncol = col + delcol[i];
+
+                 if(nrow >=0 && nrow <n && ncol >=0 && ncol <m &&
+                  grid[nrow][ncol] == '1' && !vis[nrow][ncol]){
+                     vis[nrow][ncol] = 1;
                      q.push({nrow, ncol});
-                   } 
-            }
-        
-        }
-        
-    }
+                  }
+               }
+          }
+   }
     int numIslands(vector<vector<char>>& grid) {
-        int n = grid.size();
-        int m = grid[0].size();
-
-       
-
-        vector<vector<int>> vis(n, vector<int>(m,0));
-         int cnt = 0;
-        for(int row = 0; row<n; row++){
-            for(int col = 0; col<m; col++){
-
-                if(grid[row][col] == '1'){
+        // using BFS
+       int n = grid.size();
+       int m = grid[0].size();
+       vector<vector<int>> vis(n, vector<int>(m,0));
+        
+        int cnt =0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(grid[i][j] == '1' && !vis[i][j]){
                     cnt++;
-                    bfs(row, col, grid);                    
+                    bfs(i, j, vis, grid);
                 }
             }
         }
-        return cnt;
+       return cnt;
     }
 };
